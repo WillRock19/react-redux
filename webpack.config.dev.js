@@ -7,7 +7,7 @@ process.env.NODE_ENV = "development";
 module.exports = {
   mode: "development",
   target: "web",
-  devTool: "cheap-module-source-map",
+  devtool: "cheap-module-source-map",
   entry: "./src/index",
   output: {
     //In development mode, webpack will not use the output, cause it generate the files in memory. Anyway, we have to put this property on the config file, so it knows where  it will serv it from memory
