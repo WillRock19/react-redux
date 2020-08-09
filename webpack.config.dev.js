@@ -7,12 +7,12 @@ process.env.NODE_ENV = "development";
 module.exports = {
   mode: "development", //webpack will knows to run in development mode
   target: "web",
-  devTool: "cheap-module-source-map", //Gets a sourcemap for debugging the original code
+  devtool: "cheap-module-source-map", //Gets a sourcemap for debugging the original code
   entry: "./src/index",
   output: {
     path: path.resolve(__dirname, "build"), //In development mode, the webpack won't output any files in a folder, but on a in memory directory (that we will call build)
     publicPath: "/",
-    fileName: "bundle.js", //Name of the bundle file that will be serve in memory
+    filename: "bundle.js", //Name of the bundle file that will be serve in memory
   },
   devServer: {
     stats: "minimal", //reduce information that will show in commandline
