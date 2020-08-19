@@ -9,15 +9,13 @@ class CoursesPage extends React.Component {
         title: "",
       },
     };
-
-    this.handleChange = this.handleChange.bind(this); // The problem with the last commit aproach is that it will create a new function and associate it with the class context each time the component renders itself. That is a little too much.
-    //With this aproach (called "binding in the constructor"), the function is binding only once, not in every render.
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
+    //Different from the later aproach, this is called "class fields". The arrow functions will inherit the binding context of their enclosing scope - in other words: the "this" keyword works with the class context;
     const course = { ...this.state.course, title: event.target.value };
     this.setState({ course });
-  }
+  };
 
   render() {
     return (
