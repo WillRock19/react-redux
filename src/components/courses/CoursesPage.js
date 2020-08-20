@@ -37,15 +37,13 @@ class CoursesPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  //determines what parte of the state is passed to our component via props
   return {
     courses: state.courses,
   };
 }
 
-export default connect(mapStateToProps)(CoursesPage); //We are not going to pass the second parameter, mapDispatchToProps. When we do that, our component gets a dispatch property injected automatically
+export default connect(mapStateToProps)(CoursesPage);
 
-CoursesPage.prototype = {
-  //Adding proptypes as a validation to the props that my component will reaceive
+CoursesPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
