@@ -1,4 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
+import * as courseActions from "../../redux/actions/courseActions";
+import PropTypes from "prop-types";
 
 class CoursesPage extends React.Component {
   state = {
@@ -14,7 +17,7 @@ class CoursesPage extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    alert(this.state.course.title);
+    this.props.dispatch(courseActions.createCourse(this.state.course)); //Since we didn't declare mapDispatchToProps, the connect function will automatically adds "dispatch" as a prop
   };
 
   render() {
@@ -33,4 +36,16 @@ class CoursesPage extends React.Component {
   }
 }
 
-export default CoursesPage;
+function mapStateToProps(state) {
+  //determines what parte of the state is passed to our component via props
+  return {
+    courses: state.courses,
+  };
+}
+
+export default connect(mapStateToProps)(CoursesPage); //We are not going to pass the second parameter, mapDispatchToProps. When we do that, our component gets a dispatch property injected automatically
+
+CoursesPage.prototype = {
+  //Adding proptypes as a validation to the props that my component will reaceive
+  dispatch: PropTypes.func.isRequired,
+};
