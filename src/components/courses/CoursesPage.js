@@ -17,7 +17,7 @@ class CoursesPage extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.dispatch(courseActions.createCourse(this.state.course)); //Since we didn't declare mapDispatchToProps, the connect function will automatically adds "dispatch" as a prop
+    this.props.dispatch(courseActions.createCourse(this.state.course));
   };
 
   render() {
@@ -31,6 +31,9 @@ class CoursesPage extends React.Component {
           value={this.state.course.title}
         />
         <button>Submit</button>
+        {this.props.courses.map((course) => (
+          <div key={course.title}>{course.title}</div>
+        ))}
       </form>
     );
   }
@@ -46,4 +49,5 @@ export default connect(mapStateToProps)(CoursesPage);
 
 CoursesPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  courses: PropTypes.array,
 };
