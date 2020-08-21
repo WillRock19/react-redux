@@ -18,7 +18,7 @@ class CoursesPage extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.actions.createCourse(this.state.course);
+    this.props.createCourse(this.state.course);
   };
 
   render() {
@@ -46,15 +46,14 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(courseActions, dispatch), //The bindActionCreators can accept a function or an object, so I can pass it all of my actions, and it will return them all wrapped. Another way whould be pass only one action in order to wrap it.
-  };
-}
+const mapDispatchToProps = {
+  //I can declare it as an object. When I do this, each property of the object is automaticlly bound to dispatch function
+  createCourse: courseActions.createCourse,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(CoursesPage); //I call my mapDispatchToprops as the second parameter in the connect, and all properties of the object it returns will be injected in my props
+export default connect(mapStateToProps, mapDispatchToProps)(CoursesPage); //The Connect function will automatically go throught and bind each of the object function in a call to the dispatch for me
 
 CoursesPage.propTypes = {
-  actions: PropTypes.object.isRequired, //The bindActionCreators will return an object mimicking the original object, but with each function wrapped in a call to dispatch
+  createCourse: PropTypes.func.isRequired, //I keep using this as a function
   courses: PropTypes.array.isRequired,
 };
