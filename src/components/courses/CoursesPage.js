@@ -17,7 +17,7 @@ class CoursesPage extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.dispatch(courseActions.createCourse(this.state.course));
+    this.props.createCourse(this.state.course);
   };
 
   render() {
@@ -45,9 +45,16 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(CoursesPage);
+function mapDispatchToProps(dispatch) {
+  //This is a second way to dispatch an action to redux. We create a function that returns a object with functions as properties; each function will be able to call a specific dispatch, so I don't have to do it inside my class
+  return {
+    createCourse: (course) => dispatch(courseActions.createCourse(course)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CoursesPage); //I call my mapDispatchToprops as the second parameter in the connect, and all properties of the object it returns will be injected in my props
 
 CoursesPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  createCourse: PropTypes.func.isRequired, //since I'm no longer letting the redux inject the dispatch function, I need to change this props to the function that will be inject and will handle the dispatch
   courses: PropTypes.array,
 };
