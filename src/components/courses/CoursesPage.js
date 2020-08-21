@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import * as courseActions from "../../redux/actions/courseActions";
 import PropTypes from "prop-types";
-import { bindActionCreators } from "redux"; //Function that will help us to not have to manually wrape the action creators in a dispatch call
+import { bindActionCreators } from "redux";
 
 class CoursesPage extends React.Component {
   state = {
@@ -18,7 +18,7 @@ class CoursesPage extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.createCourse(this.state.course);
+    this.props.actions.createCourse(this.state.course);
   };
 
   render() {
@@ -46,14 +46,15 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = {
-  //I can declare it as an object. When I do this, each property of the object is automaticlly bound to dispatch function
-  createCourse: courseActions.createCourse,
-};
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(courseActions, dispatch),
+  };
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(CoursesPage); //The Connect function will automatically go throught and bind each of the object function in a call to the dispatch for me
+export default connect(mapStateToProps, mapDispatchToProps)(CoursesPage);
 
 CoursesPage.propTypes = {
-  createCourse: PropTypes.func.isRequired, //I keep using this as a function
+  actions: PropTypes.object.isRequired,
   courses: PropTypes.array.isRequired,
 };
