@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import * as courseActions from "../../redux/actions/courseActions";
 import PropTypes from "prop-types";
+import { bindActionCreators } from "redux"; //Function that will help us to not have to manually wrape the action creators in a dispatch call
 
 class CoursesPage extends React.Component {
   state = {
@@ -17,7 +18,7 @@ class CoursesPage extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.createCourse(this.state.course);
+    this.props.actions.createCourse(this.state.course);
   };
 
   render() {
@@ -46,15 +47,14 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  //This is a second way to dispatch an action to redux. We create a function that returns a object with functions as properties; each function will be able to call a specific dispatch, so I don't have to do it inside my class
   return {
-    createCourse: (course) => dispatch(courseActions.createCourse(course)),
+    actions: bindActionCreators(courseActions, dispatch), //The bindActionCreators can accept a function or an object, so I can pass it all of my actions, and it will return them all wrapped. Another way whould be pass only one action in order to wrap it.
   };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoursesPage); //I call my mapDispatchToprops as the second parameter in the connect, and all properties of the object it returns will be injected in my props
 
 CoursesPage.propTypes = {
-  createCourse: PropTypes.func.isRequired, //since I'm no longer letting the redux inject the dispatch function, I need to change this props to the function that will be inject and will handle the dispatch
-  courses: PropTypes.array,
+  actions: PropTypes.object.isRequired, //The bindActionCreators will return an object mimicking the original object, but with each function wrapped in a call to dispatch
+  courses: PropTypes.array.isRequired,
 };
