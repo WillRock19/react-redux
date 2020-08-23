@@ -23,6 +23,9 @@ module.exports = {
     https: false, //used because of a open-issue in webpack when using the latest version of chrome
   },
   plugins: [
+    new webpack.DefinePlugin({
+      "process.env.API_URL": JSON.stringify("http://localhost:3001"), //With this plugin, we will be able to acces the string "http://localhost:3001" from anyware in the app where the process.env.API_URL is used (webpack will serve it for us). We need to use JSON.stringfy() because webpack requires this formmat for values.
+    }),
     new HtmlWebpackPlugin({
       template: "src/index.html",
       favicon: "src/favicon.ico",
