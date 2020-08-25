@@ -2,9 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-const CoursesList = (
-  { courses } //Destructuring props on the parameter receiving, is equivalent to create a const courses = props.courses
-) => (
+const CoursesList = ({ courses }) => (
   <table>
     <thead>
       <tr>
