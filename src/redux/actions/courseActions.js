@@ -10,12 +10,11 @@ export function loadCourseSuccess(courses) {
 }
 
 export function loadCourses() {
-  //This function is going to be use by thunk, and redux-thunk injects dispatch for us in it
   return function (dispatch) {
     return courseApi
       .getCourses()
       .then((courses) => {
-        dispatch(loadCourseSuccess(courses)); //after the call, this function will be called and the we are going to dispatch this event
+        dispatch(loadCourseSuccess(courses));
       })
       .catch((error) => {
         throw error;

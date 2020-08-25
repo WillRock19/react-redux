@@ -5,7 +5,7 @@ export default function courseReducer(state = [], action) {
     case types.CREATE_COURSE:
       return [...state, { ...action.course }];
     case types.LOAD_COURSES_SUCCESS:
-      return action.courses; //Since I'm going to replace everything I already have in my state, I can just return the course here
+      return action.courses;
     default:
       return state;
   }
