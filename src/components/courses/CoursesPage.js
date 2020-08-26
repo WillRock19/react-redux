@@ -34,20 +34,19 @@ class CoursesPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  //Gonna increase this function habilities mapping all courses of my state and adding to then a new property, "authorName"
   return {
     courses:
       state.authors.length === 0
         ? []
         : state.courses.map((course) => {
             return {
-              ...course, //I copy all course current values
+              ...course,
               authorName: state.authors.find(
                 (author) => author.id === course.authorId
-              ).name, //and then I add this property, mapping to it the specific value from the "authors" in the state
+              ).name,
             };
           }),
-    authors: state.authors, //must pass authors too, so if it changes, the changes shall be
+    authors: state.authors,
   };
 }
 
