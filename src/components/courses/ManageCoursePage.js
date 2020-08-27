@@ -1,10 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import * as courseActions from "../../redux/actions/courseActions";
 import * as authorActions from "../../redux/actions/authorActions";
 import PropTypes from "prop-types";
+import CourseForm from "./CourseForm";
+import { newCourse } from "../../../tools/mockData";
 
-function ManageCoursePage({ courses, authors, loadAuthors, loadCourses }) {
+function ManageCoursePage({
+  courses,
+  authors,
+  loadAuthors,
+  loadCourses,
+  ...props //"The spread operator in props ( '...props') says that 'assign any props I haven't destructured on the left to a variable called props'."
+}) {
+  const [course, setCourse] = useState({ ...props.course });
+  const [errors, setErrors] = useState({}); //Initial state will be empty
+
   useEffect(() => {
     if (courses.length === 0) {
       loadCourses().catch((error) => {
@@ -17,17 +28,33 @@ function ManageCoursePage({ courses, authors, loadAuthors, loadCourses }) {
         alert(`Loading authors have failed whit error: ${error}`);
       });
     }
-  }, []); //the second parameter is the elements that will make my function re-render everytime they change (if I don't declare nothing, it will re-render everytime the component renders). Declaring an empty array as a second parameter means the effect will run only once, when the component mounts.
+  }, []);
+
+  function handleChange(event) {
+    const { name, value } = event.target; //This destructure avoids the event getting garbage collected so that it's avaiable witthin the nested setCourse callback (that is a async function, and end's up losing the reference to the event for performance reasons).
+
+    //I can pass a function to setState so I can safely set a new state that's based on the existing one
+    setCourse((previousCourse) => ({
+      ...previousCourse,
+      [name]: name === "authorId" ? parseInt(value, 10) : value, //events return numbers as string, so we need to convert the authorId to an int here
+    }));
+  }
 
   return (
     <>
-      <h2>Manage Course</h2>
+      <CourseForm
+        course={course}
+        errors={errors}
+        authors={authors}
+        onChange={handleChange}
+      ></CourseForm>
     </>
   );
 }
 
 function mapStateToProps(state) {
   return {
+    course: newCourse,
     courses: state.courses,
     authors: state.authors,
   };
@@ -44,6 +71,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(ManageCoursePage);
 ManageCoursePage.propTypes = {
   actions: PropTypes.object.isRequired,
   authors: PropTypes.array.isRequired,
+  course: PropTypes.object.isRequired,
   courses: PropTypes.array.isRequired,
   loadCourses: PropTypes.func.isRequired,
   loadAuthors: PropTypes.func.isRequired,
