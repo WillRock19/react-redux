@@ -53,7 +53,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: {
-      //I'm gonna still using actions, but adding properties inside of it to represent the actions I'll be using in this component (loadCourses and loadAuthors)
       loadCourses: bindActionCreators(courseActions.loadCourses, dispatch),
       loadAuthors: bindActionCreators(authorActions.loadAuthors, dispatch),
     },

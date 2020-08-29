@@ -32,7 +32,6 @@ export function loadCourses() {
 
 export function saveCourse(course) {
   return function (dispatch, getState) {
-    //the second parameter (getState) let us access the redux store data
     return courseApi
       .saveCourse(course)
       .then((savedCourse) => {

@@ -6,7 +6,6 @@ export default function courseReducer(state = initialState.courses, action) {
     case types.CREATE_COURSE_SUCCESS:
       return [...state, { ...action.course }];
     case types.UPDATE_COURSE_SUCCESS:
-      //Map will return a new array, so I'm basically replacing the element with the matching course.id.
       return state.map((course) =>
         course.id === action.course.id ? action.course : course
       );

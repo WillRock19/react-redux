@@ -12,10 +12,10 @@ function ManageCoursePage({
   loadAuthors,
   loadCourses,
   saveCourse,
-  ...props //"The spread operator in props ( '...props') says that 'assign any props I haven't destructured on the left to a variable called props'."
+  ...props
 }) {
   const [course, setCourse] = useState({ ...props.course });
-  const [errors, setErrors] = useState({}); //Initial state will be empty
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (courses.length === 0) {
@@ -32,18 +32,17 @@ function ManageCoursePage({
   }, []);
 
   function handleChange(event) {
-    const { name, value } = event.target; //This destructure avoids the event getting garbage collected so that it's avaiable witthin the nested setCourse callback (that is a async function, and end's up losing the reference to the event for performance reasons).
+    const { name, value } = event.target;
 
-    //I can pass a function to setState so I can safely set a new state that's based on the existing one
     setCourse((previousCourse) => ({
       ...previousCourse,
-      [name]: name === "authorId" ? parseInt(value, 10) : value, //events return numbers as string, so we need to convert the authorId to an int here
+      [name]: name === "authorId" ? parseInt(value, 10) : value,
     }));
   }
 
   function handleSave(event) {
     event.preventDefault();
-    saveCourse(course); //This is passed in on props, so it's already boound to dispatch
+    saveCourse(course);
   }
 
   return (
@@ -67,7 +66,6 @@ function mapStateToProps(state) {
   };
 }
 
-//I'm going to declare it as an object, and each property will automatically be wrapped into a call to dispatch
 const mapDispatchToProps = {
   loadCourses: courseActions.loadCourses,
   loadAuthors: authorActions.loadAuthors,
