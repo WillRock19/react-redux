@@ -12,7 +12,7 @@ function ManageCoursePage({
   loadAuthors,
   loadCourses,
   saveCourse,
-  history, //Any component loaded via <Route> gets history passed in on props from React Router automatically. So I just need to receive it here (don't need to pass it in any other way ^^)
+  history,
   ...props
 }) {
   const [course, setCourse] = useState({ ...props.course });
@@ -44,7 +44,7 @@ function ManageCoursePage({
   function handleSave(event) {
     event.preventDefault();
     saveCourse(course).then(() => {
-      history.push("/courses"); //This syas: "after the saveCourse(), use React.Route history to change the url to "/courses" "
+      history.push("/courses");
     });
   }
 
@@ -61,16 +61,14 @@ function ManageCoursePage({
   );
 }
 
-//This function is called a 'selector', because it selects data from the redux store
 function getCourseBySlug(courses, slug) {
   return courses.find((course) => course.slug === slug) || null;
 }
 
-//ownProps is automatically populated by redux, and lets us access ouw component props, so we can use it, for instance, to read the URL data injected on props by React Router
 function mapStateToProps(state, ownProps) {
-  const slug = ownProps.match.params.slug; //Since the params to update page are avaiable from /:slug/, we can access it via .match.params.slug
+  const slug = ownProps.match.params.slug;
   const course =
-    slug && state.courses.length > 0 //must check if courses has been loaded since the api call is async (Since mapStateToProps runs every time the redux store changes, it will be avaiable before and after I get the courses from my api)
+    slug && state.courses.length > 0
       ? getCourseBySlug(state.courses, slug)
       : newCourse;
   return {
