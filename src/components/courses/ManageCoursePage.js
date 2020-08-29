@@ -61,9 +61,20 @@ function ManageCoursePage({
   );
 }
 
-function mapStateToProps(state) {
+//This function is called a 'selector', because it selects data from the redux store
+function getCourseBySlug(courses, slug) {
+  return courses.find((course) => course.slug === slug) || null;
+}
+
+//ownProps is automatically populated by redux, and lets us access ouw component props, so we can use it, for instance, to read the URL data injected on props by React Router
+function mapStateToProps(state, ownProps) {
+  const slug = ownProps.match.params.slug; //Since the params to update page are avaiable from /:slug/, we can access it via .match.params.slug
+  const course =
+    slug && state.courses.length > 0 //must check if courses has been loaded since the api call is async (Since mapStateToProps runs every time the redux store changes, it will be avaiable before and after I get the courses from my api)
+      ? getCourseBySlug(state.courses, slug)
+      : newCourse;
   return {
-    course: newCourse,
+    course: course,
     courses: state.courses,
     authors: state.authors,
   };
