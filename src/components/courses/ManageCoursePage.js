@@ -15,6 +15,8 @@ function ManageCoursePage({
   history,
   ...props
 }) {
+  //since I'm loading the course with the props.course, I can't load the page directly (passing the slug in the url). it happens 'cause we're copying the course passed in on props to state once on load, and it happnes before the list of courses is avaiable (since the calls are async).
+  //to solve this issue, i need to update the component's state when the props change. I can do it by changing my useEffects parameter
   const [course, setCourse] = useState({ ...props.course });
   const [errors, setErrors] = useState({});
 
@@ -23,6 +25,8 @@ function ManageCoursePage({
       loadCourses().catch((error) => {
         alert(`Loading courses have failed whit error: ${error}`);
       });
+    } else {
+      setCourse({ ...props.course }); //with this, anytime a course is avaiable in the props, it will enter this hook and be set in my local state
     }
 
     if (authors.length === 0) {
@@ -30,7 +34,7 @@ function ManageCoursePage({
         alert(`Loading authors have failed whit error: ${error}`);
       });
     }
-  }, []);
+  }, [props.course]);
 
   function handleChange(event) {
     const { name, value } = event.target;
