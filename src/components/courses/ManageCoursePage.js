@@ -11,6 +11,7 @@ function ManageCoursePage({
   authors,
   loadAuthors,
   loadCourses,
+  saveCourse,
   ...props //"The spread operator in props ( '...props') says that 'assign any props I haven't destructured on the left to a variable called props'."
 }) {
   const [course, setCourse] = useState({ ...props.course });
@@ -40,6 +41,11 @@ function ManageCoursePage({
     }));
   }
 
+  function handleSave(event) {
+    event.preventDefault();
+    saveCourse(course); //This is passed in on props, so it's already boound to dispatch
+  }
+
   return (
     <>
       <CourseForm
@@ -47,6 +53,7 @@ function ManageCoursePage({
         errors={errors}
         authors={authors}
         onChange={handleChange}
+        onSave={handleSave}
       ></CourseForm>
     </>
   );
@@ -64,15 +71,16 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   loadCourses: courseActions.loadCourses,
   loadAuthors: authorActions.loadAuthors,
+  saveCourse: courseActions.saveCourse,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageCoursePage);
 
 ManageCoursePage.propTypes = {
-  actions: PropTypes.object.isRequired,
   authors: PropTypes.array.isRequired,
   course: PropTypes.object.isRequired,
   courses: PropTypes.array.isRequired,
   loadCourses: PropTypes.func.isRequired,
   loadAuthors: PropTypes.func.isRequired,
+  saveCourse: PropTypes.func.isRequired,
 };
