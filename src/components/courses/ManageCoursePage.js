@@ -12,6 +12,7 @@ function ManageCoursePage({
   loadAuthors,
   loadCourses,
   saveCourse,
+  history, //Any component loaded via <Route> gets history passed in on props from React Router automatically. So I just need to receive it here (don't need to pass it in any other way ^^)
   ...props
 }) {
   const [course, setCourse] = useState({ ...props.course });
@@ -42,7 +43,9 @@ function ManageCoursePage({
 
   function handleSave(event) {
     event.preventDefault();
-    saveCourse(course);
+    saveCourse(course).then(() => {
+      history.push("/courses"); //This syas: "after the saveCourse(), use React.Route history to change the url to "/courses" "
+    });
   }
 
   return (
@@ -81,4 +84,5 @@ ManageCoursePage.propTypes = {
   loadCourses: PropTypes.func.isRequired,
   loadAuthors: PropTypes.func.isRequired,
   saveCourse: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
 };
