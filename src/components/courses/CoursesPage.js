@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import CoursesList from "./CoursesList";
 import { Redirect } from "react-router-dom";
+import Spinner from "../common/spinner";
 
 class CoursesPage extends React.Component {
   state = {
@@ -34,6 +35,7 @@ class CoursesPage extends React.Component {
         {/*Render has a side effect down here. If the value in state is true, it will redirect to the add course URL, but since we are validating  with the && operator, the redirect will never happen if the first condition is false*/}
         {this.state.redirectToAddCoursePage && <Redirect to="/course" />}{" "}
         <h2>Courses</h2>
+        <Spinner />
         <button
           style={{ marginBottom: 20 }}
           className="btn btn-primary add-course"
