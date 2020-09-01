@@ -1,5 +1,6 @@
 import * as types from "./actionTypes";
 import * as courseApi from "../../api/courseApi";
+import { beginApiCall } from "./apiStatusActions";
 
 export function createCourse(course) {
   return { type: types.CREATE_COURSE, course: course };
@@ -19,6 +20,9 @@ export function updateCourseSuccess(course) {
 
 export function loadCourses() {
   return function (dispatch) {
+    //before load courses, gonna dispatch the action to tell the state I'm about to start an Api call
+    dispatch(beginApiCall());
+
     return courseApi
       .getCourses()
       .then((courses) => {
@@ -31,7 +35,11 @@ export function loadCourses() {
 }
 
 export function saveCourse(course) {
+  //The comment bellow will disable the eslint verification in the line bellow it
+  //eslint-disable-next-line no-unused-vars
   return function (dispatch, getState) {
+    //before load courses, gonna dispatch the action to tell the state I'm about to start an Api call
+    dispatch(beginApiCall());
     return courseApi
       .saveCourse(course)
       .then((savedCourse) => {

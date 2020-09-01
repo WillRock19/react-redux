@@ -35,15 +35,20 @@ class CoursesPage extends React.Component {
         {/*Render has a side effect down here. If the value in state is true, it will redirect to the add course URL, but since we are validating  with the && operator, the redirect will never happen if the first condition is false*/}
         {this.state.redirectToAddCoursePage && <Redirect to="/course" />}{" "}
         <h2>Courses</h2>
-        <Spinner />
-        <button
-          style={{ marginBottom: 20 }}
-          className="btn btn-primary add-course"
-          onClick={() => this.setState({ redirectToAddCoursePage: true })}
-        >
-          Add Course
-        </button>
-        <CoursesList courses={this.props.courses}></CoursesList>
+        {this.props.loading ? (
+          <Spinner />
+        ) : (
+          <>
+            <button
+              style={{ marginBottom: 20 }}
+              className="btn btn-primary add-course"
+              onClick={() => this.setState({ redirectToAddCoursePage: true })}
+            >
+              Add Course
+            </button>
+            <CoursesList courses={this.props.courses}></CoursesList>
+          </>
+        )}
       </>
     );
   }
@@ -63,6 +68,7 @@ function mapStateToProps(state) {
             };
           }),
     authors: state.authors,
+    loading: state.apiCallsInProgress > 0,
   };
 }
 
@@ -81,4 +87,5 @@ CoursesPage.propTypes = {
   actions: PropTypes.object.isRequired,
   authors: PropTypes.array.isRequired,
   courses: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
 };

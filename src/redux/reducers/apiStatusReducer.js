@@ -6,10 +6,10 @@ function actionTypeEndsInSuccess(type) {
 }
 
 export default function apiCallStatusReducer(
-  state = initialState.authors,
+  state = initialState.apiCallsInProgress,
   action
 ) {
-  if (action.type === types.LOAD_AUTHORS_SUCCESS) {
+  if (action.type === types.BEGIN_API_CALL) {
     return state + 1;
   } else if (actionTypeEndsInSuccess(action.type)) {
     return state - 1;
