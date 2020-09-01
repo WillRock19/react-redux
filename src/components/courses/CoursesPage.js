@@ -32,7 +32,6 @@ class CoursesPage extends React.Component {
   render() {
     return (
       <>
-        {/*Render has a side effect down here. If the value in state is true, it will redirect to the add course URL, but since we are validating  with the && operator, the redirect will never happen if the first condition is false*/}
         {this.state.redirectToAddCoursePage && <Redirect to="/course" />}{" "}
         <h2>Courses</h2>
         {this.props.loading ? (
